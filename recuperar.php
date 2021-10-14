@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <title>
-    COMPUTADORAS
+      COMPUTADORAS
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -83,33 +83,41 @@
           <div class="row">
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-8">
+                <?php
+                  if(isset($_GET['estado'])){
+                    $estado = $_GET['estado'];
+                      if($estado==1){
+                        ?>
+                        <div class="mb-3 text-center">
+                            <a href="#" class="btn btn-danger btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                                <span class="text">Los Datos No Coinciden </span>
+                            </a>
+                        </div>      
+                        <?php
+                      }
+                    }
+                ?>
                 <div class="card-header pb-0 text-left bg-transparent">
-                  <h3 class="font-weight-bolder text-info text-gradient">Bienvenido de Nuevo</h3>
-                  <p class="mb-0">Ingrese su correo electrónico y contraseña</p>
+                  <h3 class="font-weight-bolder text-info text-gradient">¿HAS OLVIDADO TU CONTRASEÑA?</h3>
+                  <p class="mb-0">Ingrese sus datos para recuperar tu contraseña</p>
                 </div>
                 <div class="card-body">
-                  <form role="form" action="inicia.php" method="POST">
-                    <label>Nombre</label>
+                  <form role="form" action="recupera.php" method="POST">
+                  <label>Nombre</label>
                     <div class="mb-3">
-                      <input type="text" class="form-control" name="nombre" placeholder="Nombre" aria-label="Name" aria-describedby="email-addon">
+                        <input type="text" class="form-control" name="nombre" placeholder="Nombre" aria-label="Name" aria-describedby="email-addon" required>
                     </div>
-                    <label>Contraseña</label>
+                    <label>Apellido</label>
                     <div class="mb-3">
-                      <input type="password" class="form-control" name="pass" placeholder="Contraseña" aria-label="Password" aria-describedby="password-addon">
+                      <input type="text" class="form-control" name="correo" placeholder="Apellido" aria-label="Name" aria-describedby="email-addon" required>
                     </div>
                     <div class="text-center">
-                      <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">INICIAR</button>
+                      <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">CAMBIAR</button>
                     </div>
                   </form>
-                </div>
-                <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                  <p class="mb-4 text-sm mx-auto">
-                    ¿No tienes una cuenta?
-                    <a href="sign-up.php" class="text-info text-gradient font-weight-bold">Registrarse</a>
-                  </p>
-                  <p class="mb-4 text-sm mx-auto">
-                  <a href="recuperar.php" class="text-info text-gradient font-weight-bold">¿Has Olvidado tu Contraseña?</a>
-                  </p>
                 </div>
               </div>
             </div>

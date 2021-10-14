@@ -45,13 +45,11 @@ $dbpass = "";
 $dbname = "practica";
 
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-if(!$conn){
-    die("No se pudo conectar: ".mysqli_connect_erro());
-}else{
 
-    $sql=mysqli_query($conn, "SELECT * FROM registro");
-}
+$nm = $_GET['nm'];
 
+$verificacion=mysqli_query($conn, "SELECT * FROM registro WHERE id = '".$nm."'");
+$prueba=mysqli_fetch_array($verificacion);
 
 session_start();
 $nombre = $_SESSION['uss'];
@@ -73,7 +71,7 @@ if(!isset($nombre)){
     <div class="collapse navbar-collapse  w-auto  max-height-vh-100 h-100" id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" href="menu.php">
+          <a class="nav-link " href="menu.php">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>shop </title>
@@ -93,7 +91,7 @@ if(!isset($nombre)){
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="ingresar.php">
+          <a class="nav-link  active" href="javascript:;">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>settings</title>
@@ -110,7 +108,7 @@ if(!isset($nombre)){
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Ingresar</span>
+            <span class="nav-link-text ms-1">Editar</span>
           </a>
         </li>
         <li class="nav-item">
@@ -139,94 +137,79 @@ if(!isset($nombre)){
   <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
-      <div class="container-fluid py-1 px-3">
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="Type here...">
+        <div class="container-fluid py-1 px-3">
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+              <div class="input-group">
+                <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" placeholder="Type here...">
+              </div>
             </div>
+            <ul class="navbar-nav  justify-content-end">
+              <li class="nav-item d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                  <i class="fa fa-user me-sm-1"></i>
+                  <span class="d-sm-inline d-none">
+                    <?php
+                      echo($nombre)
+                    ?>
+                  </span>
+                </a>
+              </li>
+              <li class="nav-item px-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-body p-0">
+                  <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                </a>
+              </li>
+              <li class="nav-item d-flex align-items-center">
+                <a href="exit.php" class="nav-link text-body font-weight-bold px-0">
+                <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-down"></i></button>
+                </a>
+              </li>
+            </ul>
           </div>
-          <ul class="navbar-nav  justify-content-end">
-            <li class="nav-item d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
-                <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">
-                  <?php
-                    echo($nombre)
-                  ?>
-                </span>
-              </a>
-            </li>
-            <li class="nav-item px-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-body p-0">
-                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-              </a>
-            </li>
-            <li class="nav-item d-flex align-items-center">
-              <a href="exit.php" class="nav-link text-body font-weight-bold px-0">
-              <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-down"></i></button>
-              </a>
-            </li>
-          </ul>
         </div>
-      </div>
-    </nav>
+      </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Productos</h6>
+              <h6>Editar Producto</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nombre</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Descripción</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cantidad</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Precio</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Opciones</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                      while($re = mysqli_fetch_array($sql)){
-                        echo "<tr>";
-                          echo "<td class='align-middle text-center text-sm'>"
-                                  ."<div class='d-flex px-2 py-1'>"
-                                    ."<p class='text-xs font-weight-bold mb-0'>".$re["id"]."</p>".
-                                  "</div>"."</td>";
-                          echo  "<td >"
-                                  ."<p class='text-xs font-weight-bold mb-0'>".$re["nombre"]."</p>".
-                                "</td>";
-                          echo  "<td class='align-middle text-center text-sm'>"
-                                  ."<p class='text-xs font-weight-bold mb-0'>".$re["descripcion"]."</p>".
-                                "</td>";
-                          echo  "<td class='align-middle text-center'>"
-                                  ."<p class='text-xs font-weight-bold mb-0'>".$re["stock"]."</p>".
-                                "</td>";
-                          echo  "<td class='align-middle text-center'>"
-                                  ."<p class='text-xs font-weight-bold mb-0'>".$re["precio"]."</p>".
-                                "</td>";
-                          echo  "<td class='align-middle text-center'>"
-                                  ."<a class='btn btn-link text-danger text-gradient mb-0' href='eliminar.php?&nm=".$re['id']."'><i class='far fa-trash-alt mb-0'></i></a>"
-                                  ."<a class='btn btn-link text-dark mb-0' href='editar.php?&nm=".$re['id']."'><i class='fas fa-pencil-alt text-dark mb-0' aria-hidden='true'></i></a>".
-                                "</td>";
-                        "</tr>";
-                      }
-                    ?>
-                  </tbody>
-                </table>
+                <div class="card-body">
+                  <form role="form" action="edita.php?nm=<?php echo $nm ?>" method="POST">
+                    <div class="mb-3">
+                      <label>Nombre</label>
+                      <input type="text" class="form-control" value="<?php echo $prueba["nombre"] ?>" name="Nombre" placeholder="Nombre" aria-label="Text" aria-describedby="text-addon">
+                    </div>
+                    <div class="mb-3">
+                      <label>Descripcion</label>
+                      <input type="text" class="form-control" value="<?php echo $prueba["descripcion"] ?>" name="Descripcion" placeholder="Descripcion" aria-label="Text" aria-describedby="text-addon">
+                    </div>
+                    <div class="mb-3">
+                      <div class="w-45 mt-4 mb-0 float-start">
+                        <label>Cantidad</label>
+                        <input type="number" class="form-control" value="<?php echo $prueba["stock"] ?>" name="Stock" placeholder="Cantidad" aria-label="Text" aria-describedby="text-addon">
+                      </div>
+                      <div class="w-45 mt-4 mb-0 float-end">
+                        <label>Precio</label>
+                        <input type="number" class="form-control" value="<?php echo $prueba["precio"] ?>" name="Precio" placeholder="Precio" aria-label="Text" aria-describedby="text-addon">
+                      </div>
+                    </div>
+                    <div class="text-center">
+                      <button type="submit" class="btn bg-gradient-info w-50 mt-4 mb-0">ACTUALIZAR</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -328,10 +311,10 @@ if(!isset($nombre)){
     </div>
   </div>
   <!--   Core JS Files   -->
-  <script src="assets/js/core/popper.min.js"></script>
-  <script src="assets/js/core/bootstrap.min.js"></script>
-  <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -344,7 +327,7 @@ if(!isset($nombre)){
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
+  <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
 </body>
 
 </html>
